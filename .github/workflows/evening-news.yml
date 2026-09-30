@@ -19,4 +19,6 @@ jobs:
       - name: Push evening news
         env:
           FEISHU_WEBHOOK: ${{ secrets.FEISHU_WEBHOOK }}
+          FEISHU_SECRET: ${{ secrets.FEISHU_SECRET }}
+          WECOM_WEBHOOK: ${{ secrets.WECOM_WEBHOOK }}
         run: python evening_news.py

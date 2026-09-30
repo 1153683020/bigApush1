@@ -729,12 +729,10 @@ B1完美图形匹配:
                 # 原有选股流程（不带B1匹配）
                 result = quant.run_full(category=args.category, max_stocks=args.max_stocks)
 
-            # 飞书推送
+            # 推送（飞书 + 企业微信）
             if result:
-                from utils.feishu_notifier import FeishuNotifier
-                feishu_cfg = quant.config.get('feishu', {})
-                webhook_url = os.environ.get('FEISHU_WEBHOOK') or feishu_cfg.get('webhook_url', '')
-                notifier = FeishuNotifier(webhook_url)
+                from utils.notify import MultiNotifier
+                notifier = MultiNotifier.from_config(quant.config)
 
                 # 加载策略中文名称映射
                 display_names = {}

@@ -1278,15 +1278,10 @@ def run_selection():
                 # 匹配失败时返回原始结果
                 pass
         
-        # 飞书推送选股结果
+        # 推送选股结果（飞书 + 企业微信）
         try:
-            from utils.feishu_notifier import FeishuNotifier
-            import yaml as _yaml
-            with open('config/config.yaml', 'r', encoding='utf-8') as _f:
-                _cfg = _yaml.safe_load(_f)
-            _feishu_cfg = _cfg.get('feishu', {})
-            _webhook_url = os.environ.get('FEISHU_WEBHOOK') or _feishu_cfg.get('webhook_url', '')
-            _notifier = FeishuNotifier(_webhook_url)
+            from utils.notify import MultiNotifier
+            _notifier = MultiNotifier.from_config(config_path='config/config.yaml')
             _lines = [f"📊 缅A每日推送 ({dt.now().strftime('%Y-%m-%d %H:%M:%S')})", ""]
             _total = 0
             _all_stocks = []

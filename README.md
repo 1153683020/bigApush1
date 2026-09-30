@@ -59,12 +59,22 @@ A股量化选股 + 每日自动推送系统，通过 GitHub Actions 实现全自
 
 点击右上角 Fork 按钮，将仓库复制到你的 GitHub 账号下。
 
-### 2. 配置飞书 Webhook
+### 2. 配置推送 Webhook（飞书 / 企业微信）
 
-1. 在飞书群中添加自定义机器人
-2. 复制 Webhook URL
+**飞书：**
+
+1. 在飞书群中添加自定义机器人，复制 Webhook URL
+2. 如机器人开启了**签名校验**，复制加签密钥（Secret）
 3. 进入仓库 → Settings → Secrets and variables → Actions
 4. 新建 Secret：`FEISHU_WEBHOOK`，值为你的 Webhook URL
+5. （可选）新建 Secret：`FEISHU_SECRET`，值为加签密钥
+
+**企业微信：**
+
+1. 在企业微信群中添加群机器人，复制 Webhook URL（形如 `https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=xxx`）
+2. 新建 Secret：`WECOM_WEBHOOK`，值为你的 Webhook URL
+
+两个渠道可同时配置，推送时消息会同时发送到所有已配置的渠道。
 
 ### 3. 启用 Actions
 
@@ -79,9 +89,14 @@ A股量化选股 + 每日自动推送系统，通过 GitHub Actions 实现全自
 ### config/config.yaml
 
 ```yaml
-# 飞书机器人配置
+# 飞书机器人配置（secret 为机器人开启"签名校验"时的加签密钥，可选）
 feishu:
   webhook_url: "https://open.feishu.cn/open-apis/bot/v2/hook/xxxxx"
+  secret: ""
+
+# 企业微信机器人配置
+wecom:
+  webhook_url: "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=xxxxx"
 
 # 数据更新配置
 update:

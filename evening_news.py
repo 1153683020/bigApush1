@@ -93,17 +93,9 @@ def get_news(count=10):
 
 
 def send_feishu(msg):
-    """发送飞书消息"""
-    webhook = os.environ.get("FEISHU_WEBHOOK", "")
-    if not webhook:
-        print("FEISHU_WEBHOOK 未设置")
-        return False
-    resp = requests.post(
-        webhook,
-        json={"msg_type": "text", "content": {"text": msg}},
-        timeout=10,
-    )
-    return resp.json().get("code") == 0
+    """发送通知消息（飞书 + 企业微信）"""
+    from utils.notify import send_text
+    return send_text(msg)
 
 
 def main():
